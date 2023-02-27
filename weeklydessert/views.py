@@ -10,7 +10,7 @@ from django.contrib.auth import logout, login, authenticate
 from .models import Week, Choice  # Models
 
 
-# @login_required()
+@login_required()
 def index(request):
     try:
         latest_week_poll = Week.objects.get(pk=1)
