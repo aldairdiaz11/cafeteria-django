@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="{% static 'header.css' %}" type="text/css">
 
 <div class="header">
+  <a class="logout-button" href="{% url 'logout' %}">Log Out</a>
   <img src="{% static 'Dessert.png' %}" alt="Dessert-img">
 
   {% if user.username %}

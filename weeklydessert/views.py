@@ -6,11 +6,11 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm  # User Authentication:
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth import logout
 from .models import Week, Choice  # Models
 
 
-@login_required()
+@login_required
 def index(request):
     try:
         latest_week_poll = Week.objects.get(pk=1)
@@ -25,17 +25,17 @@ def index(request):
     return render(request, "index.html", context)
 
 
-class DetailsView(DetailView):
+class DetailsView(DetailView, LoginRequiredMixin):
     model = Week
     template_name = "detail.html"
 
 
-class ResultsView(DetailView):
+class ResultsView(DetailView, LoginRequiredMixin):
     model = Week
     template_name = "results.html"
 
 
-@login_required()
+@login_required
 def vote(request, week_id):
     try:
         week = Week.objects.get(pk=1)
@@ -54,11 +54,6 @@ class SignUp(CreateView):
     template_name = "registration/signup.html"
 
 
-# def signin(request):
-#     username = request.POST["username"]
-#     password = request.POST["password"]
-#
-#     user = authenticate(request, username=username, password=password)
-#
-#     if user is not None:
-#         login(request, user)
+def logout_request(request):
+    logout(request)
+    return redirect("index")
